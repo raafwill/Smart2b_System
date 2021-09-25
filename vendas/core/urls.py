@@ -17,6 +17,7 @@ brand_patterns = [
 
 product_patterns = [
     path('', view=c.ProductList.as_view(), name='product_list'),
+    path('add_product/', view=c.add_product, name='add_product'),
 ]
 
 sale_patterns = [

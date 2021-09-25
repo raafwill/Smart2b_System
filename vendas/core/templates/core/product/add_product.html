@@ -1,0 +1,57 @@
+{% load bootstrap %}
+
+{% block title %}
+  <title>Nova Produto</title>
+{% endblock title %}
+
+{# Adding select2 css #}
+{% block css %}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+{% endblock %}
+
+{# Adding select2 js #}
+{% block js %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+  <!-- <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+          <h1 class="page-header text-center lead">Nova Venda</h1>
+      </div>
+  </div> -->
+<main role="main" class="container">
+  <div class="jumbotron">
+    <h1>{{title}}</h1>
+    <form method="POST" action=''>{% csrf_token %}
+        {{form}}
+    <input type="submit" value="Salvar"/>
+  </div>
+</main>
+    <script>
+      $(document).ready(function () {
+        $("#add-item").click(function (ev) {
+          ev.preventDefault();
+          var count = $('#order').children().length;
+          var tmplMarkup = $("#item-order").html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $("div#order").append(compiledTmpl);
+
+          // update form count
+          $('#id_product-TOTAL_FORMS').attr('value', count + 1);
+
+          // some animate to scroll to view our new form
+          $('html, body').animate({
+            scrollTop: $("#add-item").position().top - 200
+          }, 800);
+          {# Initialize select2 on new select field #}
+          $('#id_product-' + (count) + '-product').select2();
+        });
+        {# Initialize select2 on all select tags #}
+        $('select').select2();
+      });
+    </script>
+
+
+{% endblock %}

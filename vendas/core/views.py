@@ -1,4 +1,4 @@
-from django.shortcuts import render, resolve_url
+from django.shortcuts import render, redirect, resolve_url
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.db.models import F, Count
@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import UpdateView
 from django.forms.models import inlineformset_factory
 from .models import Customer, Seller, Brand, Product, Sale, SaleDetail
-from .forms import SaleForm, SaleDetailForm
+from .forms import SaleForm, SaleDetailForm, ProductForm
 from .mixins import CounterMixin, FirstnameSearchMixin
 
 
@@ -66,6 +66,17 @@ class ProductList(CounterMixin, ListView):
         if self.request.GET.get('outofline', False):
             p = p.filter(outofline=1)
         return p
+
+
+def add_product(request):
+    form = ProductForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('/')
+    context = {"form": form,
+               "title": "Novo Produto",
+               }
+    return render(request, 'core/product/add_product.html', context)
 
 
 def sale_create(request):
