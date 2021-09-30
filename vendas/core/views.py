@@ -6,9 +6,8 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import UpdateView
 from django.forms.models import inlineformset_factory
 from .models import Customer, Seller, Brand, Product, Sale, SaleDetail
-from .forms import SaleForm, SaleDetailForm, ProductForm
+from .forms import SaleForm, SaleDetailForm, ProductForm, ProductUpdateForm
 from .mixins import CounterMixin, FirstnameSearchMixin
-
 
 home = TemplateView.as_view(template_name='index.html')
 
@@ -144,3 +143,37 @@ class SaleDetailView(DetailView):
         context['count'] = sd.count()
         context['Itens'] = sd
         return context
+
+
+def product_detail(request, pk):
+    queryset = Product.objects.get(id=pk)
+    context = {"title": queryset.product,
+               "queryset": queryset,
+               }
+    return render(request, 'core/product/product_detail.html', context)
+
+
+def update_product(request, pk):
+    queryset = Product.objects.get(id=pk)
+    form = ProductUpdateForm(instance=queryset)
+    if request.method == 'POST':
+        form = ProductUpdateForm(request.POST, instance=queryset)
+        if form.is_valid():
+            form.save()
+            return redirect('/product/')
+
+    context ={'form': form}
+    return render(request, 'core/product/add_product.html', context)
+
+
+def delete_product(request, pk):
+    queryset = Product.objects.get(id=pk)
+    if request.method == 'POST':
+        queryset.delete()
+        return redirect('/product/')
+
+    return render(request, 'core/product/delete_product.html')
+
+
+
+

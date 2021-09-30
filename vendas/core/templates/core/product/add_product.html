@@ -1,7 +1,9 @@
+{% extends 'base.html' %}
+
 {% load bootstrap %}
 
 {% block title %}
-  <title>Nova Produto</title>
+  <title>Novo Produto</title>
 {% endblock title %}
 
 {# Adding select2 css #}
@@ -21,14 +23,31 @@
           <h1 class="page-header text-center lead">Nova Venda</h1>
       </div>
   </div> -->
-<main role="main" class="container">
-  <div class="jumbotron">
-    <h1>{{title}}</h1>
-    <form method="POST" action=''>{% csrf_token %}
-        {{form}}
-    <input type="submit" value="Salvar"/>
+<div class="row">
+  <div class="col-xs-10 col-md-12">
+    <form method="POST" action=''>
+        {% csrf_token %}
+        <legend><b>Produto</b></legend>
+        <div id="order" class="form-inline">
+                {{form|bootstrap}}
+            </div>
+        </div>
+
+        <div class="form-inline buttons">
+            <a href="{% url 'core:sale_list' %}" class="btn btn-danger pull-right">
+                <i class="fa fa-times"></i>
+                Cancelar
+            </a>
+            <button class="btn btn-primary pull-right" value="Save">
+                <i class="fa fa-floppy-o"></i>
+                Salvar
+            </button>
+        </div>
+
+
+    </form>
   </div>
-</main>
+</div>
     <script>
       $(document).ready(function () {
         $("#add-item").click(function (ev) {
@@ -53,5 +72,11 @@
       });
     </script>
 
+
+    <script type="text/html" id="item-order">
+      <div id="item-__prefix__" class="form-group" style="margin-top: 10px">
+        {{ form|bootstrap }}
+      </div>
+    </script>
 
 {% endblock %}

@@ -4,8 +4,8 @@
     <form class="navbar-form navbar-right" action="." method="get">
         <!-- search form -->
         <a href="{% url 'core:add_product' %}">
-            <button id="new_sale" type="button" class="btn btn-primary">
-                <span class="glyphicon glyphicon-plus"></span> Adicionar
+            <button id="new_sale" type="button" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus"></span> Novo Produto
             </button>
         </a>
         <input id="search_box" name="search_box" type="text" placeholder="Localizar..." class="form-control">
@@ -26,7 +26,6 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>Importado</th>
 						<th>NCM</th>
 						<th>Produto</th>
 						<th>Marca</th>
@@ -34,7 +33,7 @@
 						<th class="text-center">Estoque Min.</th>
 						<th class="text-right">Preço</th>
 						<th class="text-right">IPI</th>
-						<th>Fora de linha</th>
+						<th class="text-center">ID</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -44,15 +43,9 @@
 					{% else %}
 						<tr>
 					{% endif %}
-						<td class="text-center">
-							{% if product.imported %}
-								<span class="glyphicon glyphicon-ok-sign" style="color: #44AD41"></span>
-							{% else %}
-								<span class="glyphicon glyphicon-minus-sign" style="color: #DE2121"></span>
-							{% endif %}
-						</td>
+
 						<td>{{ product.ncm }}</td>
-						<td>{{ product.product }}</td>
+					<td><a href="{% url 'core:product_detail' product.id %}"><b>{{ product.product }}</b></a></td>
 						<td>{{ product.brand.brand }}</td>
 						<td class="text-center">{{ product.stock }}</td>
 						<td class="text-center">{{ product.stock_min }}</td>
@@ -63,13 +56,11 @@
 						{% else %}
 							<td class="text-right">{{ product.get_ipi }}%</td>
 						{% endif %}
-
-						<td class="text-center">
-							{% if product.outofline %}
-								<span class="glyphicon glyphicon-ok-sign" style="color: #44AD41"></span>
-							{% else %}
-								<span class="glyphicon glyphicon-minus-sign" style="color: #DE2121"></span>
-							{% endif %}
+					<td class="text-center">{{product.id}}</a></td>
+					<td class="text-center">
+								<a href="{% url 'core:delete_product' product.id %}">
+									<span class="glyphicon glyphicon-minus-sign" style="color: #DE2121"></span>
+								</a>
 						</td>
 					</tr>
 				{% endfor %}

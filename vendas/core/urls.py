@@ -18,6 +18,10 @@ brand_patterns = [
 product_patterns = [
     path('', view=c.ProductList.as_view(), name='product_list'),
     path('add_product/', view=c.add_product, name='add_product'),
+    path('product_detail/<str:pk>/', view=c.product_detail, name='product_detail'),
+    path('update_product/<str:pk>/', view=c.update_product, name='update_product'),
+    path('delete_product/<str:pk>/', view=c.delete_product, name='delete_product'),
+
 ]
 
 sale_patterns = [

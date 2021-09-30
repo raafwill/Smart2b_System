@@ -20,4 +20,18 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['ncm',
+                  'brand',
+                  'product',
+                  'price',
+                  'ipi',
+                  'stock',
+                  'stock_min',
+                  'category']
+
+
+class ProductUpdateForm(forms.ModelForm):
+
+   class Meta:
+     model = Product
+     fields = ['ncm', 'brand', 'product', 'price', 'ipi', 'stock', 'stock_min', 'category']
